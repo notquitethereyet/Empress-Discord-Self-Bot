@@ -1,7 +1,7 @@
 {
-    "USERTOKEN": "NzA4NTM0MjUzODA5NDM0Njg0.X49NTQ.uKUGXtBmAw4Empe161ICjOPVMRI",
+    "USERTOKEN": "",
     "BOTPREFIX": ">",
     "EmbedTimeout": 15000,
-    "OpenWeatherAPIKey": "f0ba497d30305961ef329c39b9f579a5",
-    "webhookurl": "https://canary.discord.com/api/webhooks/768086144193527828/moCkrKblEnCpIjsNAGBaKH7Lyred0KnXVDRoqGZ9ieHUUsah97Db8y6Dy9P8HJ0qAKkS"
+    "OpenWeatherAPIKey": "",
+    "webhookurl": ""
 }
