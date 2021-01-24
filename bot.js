@@ -825,6 +825,14 @@ client.on('message', async message => {
                     break;
 
                 }
+            case 'fakeinvite':{
+                message.delete
+                console.log(clc.blueBright(`${cmd} command used`))
+                message.channel.send(`${args[0]}+||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||+${args[1]}`)
+                break;
+
+            
+            }
 
                 case 'feed':{
                     console.log(clc.blueBright(`${cmd} command used`))
@@ -2084,7 +2092,7 @@ client.on('message', async message => {
                 case 'text':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
-                    message.channel.send("```md\nascii <text>\nblank\nclap <text>\ndecode <base64 text>\ndm <@user>\neditspam <text>\nembed <title>, <description>\nencode <text>\neval <js snippet>\nfact\ngping <@user>\nguildlist\nimgembed <img url>\nlenny\nlmgtfy <query>\nnotfunny\nreverse <text>\nsecret <text>\nsmol <text>\nspam <number> <text>\type <text>\ntyping <duration in s/m/d/y>```")
+                    message.channel.send("```md\nascii <text>\nblank\nclap <text>\ndecode <base64 text>\ndm <@user>\neditspam <text>\nembed <title>, <description>\nencode <text>\neval <js snippet>\nfact\nfakeinvite <fake discord invite> <real discord invite>\ngping <@user>\nguildlist\nimgembed <img url>\nlenny\nlmgtfy <query>\nnotfunny\nreverse <text>\nsecret <text>\nsmol <text>\nspam <number> <text>\type <text>\ntyping <duration in s/m/d/y>```")
                     break;
                 }
                 case 'moderation':{
