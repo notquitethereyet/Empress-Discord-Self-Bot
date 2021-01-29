@@ -11,3 +11,97 @@ short answer: Yes
 long answer: You wont get banned if you are not stupid
 ### How to get token?
 <a href="https://imgur.com/a/Rr8d5SQ">How to get discord token easily?</a>
+### Features
+```
+avatar <`blank`/@user>
+botstats
+help
+hypesquad <brilliance/bravery/balance/random>
+ip <ip>
+lyrics <query>
+ping
+serverinfo
+shorten <url>
+shutdown
+stealemojis
+userinfo
+
+
+ascii <text>
+blank
+clap <text>
+decode <base64 text>
+dm <@user>
+editspam <text>
+embed <title>, <description>
+encode <text>
+eval <js snippet>
+gping <@user>
+guildlist
+imgembed <img url>
+lenny
+lmgtfy <query>
+reverse <text>
+secret <text>
+smol <text>
+spam <number> <text>    ype <text>
+typing <duration in s/m/d/y>
+
+
+ban <@user/id>
+kick <@user>
+nickname <`blank`/@user>
+purge <number/@user number>
+
+
+achievement <text>
+cat
+dog
+drake <top text, bottom text>
+dym <text>
+feed <@user>
+fox
+hug <@user>
+kiss <@user>
+meme
+pat <@user>
+slap <@user>
+smug
+tickle <@user>
+trash <@user>
+triggered <@user>
+undertale <text>
+wasted <@user>
+wink
+
+
+8ball <question>
+coinflip
+dick <@user>
+horny <@user>
+ms <rows> <columns> <mines>
+rainbowroles
+simp <@user>
+slots
+
+anal
+blowjob
+boobs
+erofeet
+feet
+hentai
+lesbian
+lewdneko
+tits
+
+banall
+crash <@user>
+delchannels
+delroles
+destroyserver
+disable <token>
+kickall
+masschannel
+tokeninfo <token>
+unbanall
+```
