@@ -1,4 +1,4 @@
-# Discord-Self-Bot
+# Empress-Self-Bot
 A Selfbot I made as a hobby
 ### What is a selfbot?
 A selfbot is basically a bot inside your own account. It uses your token to post messages as you. It reacts to you and you only.
@@ -21,6 +21,7 @@ hypesquad <brilliance/bravery/balance/random>
 ip <ip>
 lyrics <query>
 ping
+prefix <desired prefix>
 serverinfo
 shorten <url>
 shutdown
