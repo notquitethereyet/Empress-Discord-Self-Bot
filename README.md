@@ -11,7 +11,8 @@ short answer: Yes
 long answer: You wont get banned if you are not stupid
 ### How to get token?
 <a href="https://imgur.com/a/Rr8d5SQ">How to get discord token easily?</a>
-### Features
+## Features
+### General
 ```
 avatar <`blank`/@user>
 botstats
@@ -25,8 +26,9 @@ shorten <url>
 shutdown
 stealemojis
 userinfo
-
-
+```
+### Text
+```
 ascii <text>
 blank
 clap <text>
@@ -46,14 +48,17 @@ secret <text>
 smol <text>
 spam <number> <text>    ype <text>
 typing <duration in s/m/d/y>
-
-
+```
+### Moderation
+```
 ban <@user/id>
 kick <@user>
 nickname <`blank`/@user>
 purge <number/@user number>
+```
 
-
+### Image
+```
 achievement <text>
 cat
 dog
@@ -73,8 +78,9 @@ triggered <@user>
 undertale <text>
 wasted <@user>
 wink
-
-
+```
+### Fun
+```
 8ball <question>
 coinflip
 dick <@user>
@@ -83,7 +89,9 @@ ms <rows> <columns> <mines>
 rainbowroles
 simp <@user>
 slots
-
+```
+### NSFW
+```
 anal
 blowjob
 boobs
@@ -93,7 +101,9 @@ hentai
 lesbian
 lewdneko
 tits
-
+```
+### Abuse
+```
 banall
 crash <@user>
 delchannels
