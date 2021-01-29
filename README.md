@@ -38,6 +38,7 @@ editspam <text>
 embed <title>, <description>
 encode <text>
 eval <js snippet>
+fakeinvite <fake discord inv> <real discord invite>
 gping <@user>
 guildlist
 imgembed <img url>
