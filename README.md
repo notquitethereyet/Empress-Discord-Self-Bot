@@ -114,7 +114,7 @@ disable <token>
 kickall
 masschannel
 ```
-```passreset <```<a href="https://imgur.com/jEQlENZ">Personal Access Token</a>```> <target discord token>```
+```passreset ```<<a href="https://imgur.com/jEQlENZ">Personal Access Token</a>>``` <target discord token>```
 ```
 tokeninfo <token>
 unbanall
