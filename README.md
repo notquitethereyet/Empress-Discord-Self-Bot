@@ -9,6 +9,8 @@ Basically anything you can do with your discord account and more!
 ### Is selfbots against Discord's Terms of Service?
 short answer: Yes 
 long answer: You wont get banned if you are not stupid
+### Download
+<a hred="https://github.com/quiet69/Empress-Discord-Self-Bot/releases/tag/v1.2">Download for your respective OS</a>
 ### How to get token?
 <a href="https://imgur.com/a/Rr8d5SQ">How to get discord token easily?</a>
 ## Features
