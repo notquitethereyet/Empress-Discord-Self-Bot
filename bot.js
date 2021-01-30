@@ -1505,8 +1505,12 @@ client.on('message', async message => {
                 case 'pussy':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
+                    function doRandHT() {
+                        var rand = ['godpussy','pantiestotheside','pussy'];
+                        return rand[Math.floor(Math.random()*rand.length)];
+                    }
                     try{
-                        var response = await fetch(`https://meme-api.herokuapp.com/gimme/godpussy`);
+                        var response = await fetch(`https://meme-api.herokuapp.com/gimme/`+doRandHT());
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Wink!`)
