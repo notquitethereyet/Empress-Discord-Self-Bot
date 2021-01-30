@@ -29,6 +29,7 @@ long answer: You wont get banned if you are not stupid
 ```
 avatar <`blank`/@user>
 botstats
+guildicon
 help
 hypesquad <brilliance/bravery/balance/random>
 ip <ip>
@@ -40,6 +41,7 @@ shorten <url>
 shutdown
 stealemojis
 userinfo
+weather <city>
 ```
 ### Text
 ```
@@ -47,22 +49,26 @@ ascii <text>
 blank
 clap <text>
 decode <base64 text>
+define <word>
 dm <@user>
 editspam <text>
 embed <title>, <description>
 encode <text>
 eval <js snippet>
+fact
 fakeinvite <fake discord inv> <real discord invite>
 gping <@user>
 guildlist
 imgembed <img url>
 lenny
 lmgtfy <query>
+owoify <text>
 reverse <text>
 secret <text>
 smol <text>
 spam <number> <text>    ype <text>
 typing <duration in s/m/d/y>
+type <text>
 ```
 ### Moderation
 ```
@@ -75,18 +81,24 @@ purge <number/@user number>
 ### Image
 ```
 achievement <text>
+baka <@user>
+bernie
 cat
+changemymind
 dog
 drake <top text, bottom text>
 feed <@user>
 fox
 hug <@user>
 kiss <@user>
+meme
 pat <@user>
 slap <@user>
 smug
 tickle <@user>
 triggered <@user>
+trumptweet <text>
+twobuttons <text1> <text2>
 undertale <text>
 wasted <@user>
 wink
@@ -96,8 +108,12 @@ wink
 8ball <question>
 coinflip
 dick <@user>
+gay <@user>
 horny <@user>
 ms <rows> <columns> <mines>
+nitrogen
+notfunny
+pokedex <pokemon name>
 rainbowroles
 simp <@user>
 slots
@@ -105,14 +121,22 @@ slots
 ### NSFW
 ```
 anal
+animethighs
+ass
 blowjob
 boobs
+cuteneko
 erofeet
 feet
 hentai
 lesbian
 lewdneko
+nudes
+pussy
+squirt
+thighs
 tits
+
 ```
 ### Abuse
 ```
