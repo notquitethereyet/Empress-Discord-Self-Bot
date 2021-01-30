@@ -1,0 +1,9 @@
+{
+    "USERTOKEN": "",
+    "BOTPREFIX": ">",
+    "EmbedTimeout": 15000,
+    "OpenWeatherAPIKey": "",
+    "webhookurl": "",
+    "imgflip_username": "",
+    "imgflip_pass": ""
+}
