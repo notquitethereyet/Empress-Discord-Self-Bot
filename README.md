@@ -13,6 +13,7 @@ long answer: You wont get banned if you are not stupid
 <a href="https://github.com/quiet69/Empress-Discord-Self-Bot/releases/tag/v1.2">Download for your respective OS</a>
 ### How to get token?
 <a href="https://imgur.com/a/Rr8d5SQ">How to get discord token easily?</a>
+[empress](https://user-images.githubusercontent.com/43907678/106354423-bd85eb00-6317-11eb-8a09-062214db1c3f.png)
 ## Features
 ### General
 ```
