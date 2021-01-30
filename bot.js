@@ -9,8 +9,6 @@ const randomPuppy = require('random-puppy');
 const {platform} = require('os')
 const {version}= require("discord.js");
 var util = require('util');
-const { exec } = require("child_process");
-const {PythonShell} = require('python-shell')
 lolol();
 function lolol(){
     try{
@@ -21,6 +19,8 @@ function lolol(){
         global.WeatherKey=config.OpenWeatherAPIKey;
         global.usertoken = config.USERTOKEN
         global.webhook = config.webhookurl
+        global.imgflip_username = config.imgflip_username
+        global.imgflip_pass = config.imgflip_pass
         try{
             client.login(usertoken);
         } catch(e) {console.log(clc.redBright('Please verify token in config!'))}
@@ -36,7 +36,9 @@ function lolol(){
                     "BOTPREFIX": result.BOTPREFIX,
                     "EmbedTimeout": 15000,
                     "OpenWeatherAPIKey": "",
-                    "webhookurl": ""
+                    "webhookurl": "",
+                    "imgflip_username": "",
+                    "imgflip_pass": ""
                 }
             console.clear();
             console.log(clc.magenta('Optional: Change embed delete timer and set openweatherAPI key in ./config.json'))
@@ -57,6 +59,10 @@ const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 const fetch = require('node-fetch');
 const urban = require('relevant-urban');
 const Minesweeper = require('discord.js-minesweeper');
+const Imgflipper = require("imgflipper");
+const imgflipper = new Imgflipper(imgflip_username, imgflip_pass);
+const open = require('open');
+
 const mappings = (function (object) {
     let output = [];
 
@@ -139,13 +145,13 @@ client.on('message', async message => {
                     .setTitle(`8ball says...`)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                     .setImage(data.url)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setFooter(`Empress`)
                     .setTimestamp();
                     message.channel.send(embed).then(m=>{
                         setTimeout(function(){m.delete();},ET);
                     });
-                } catch(e) {console.log(`${cmd} error in response`)}
+                } catch(e) {console.log(`${cmd}: error in response`)}
 
                 break;
                 }
@@ -162,12 +168,33 @@ client.on('message', async message => {
                         .setImage("https://minecraftskinstealer.com/achievement/3/Achievement+Get%21/"+args.join('+'))
                         .setFooter(`Empress`)
                         .setTimestamp()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png');
+                        .setThumbnail('https://imgur.com/a/PT3n5lx');
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
 
+                    break;
+                }
+                case 'allmyhomies':{
+                    console.log(clc.blueBright(`${cmd} command used`))
+                    text = args.join(' ')
+                    message.delete();
+                    try{
+                        function cb(err, imgUrl){
+                        var embed = new Discord.RichEmbed()
+                        .setImage(imgUrl)
+                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
+                        .setTimestamp()
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
+                        .setFooter(`Empress`);
+                        message.channel.send(embed).then(m=>{
+                            setTimeout(function(){m.delete();},ET);
+                        });
+                    }
+                    x = imgflipper.generateMeme(216523697, "Fuck "+text, "All my homies hate "+text, cb);
+                    } catch(e) {
+                        console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -179,7 +206,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Wink!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -187,7 +214,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e){console.log(`${cmd} error in response`)}
+                    } catch(e){console.log(`${cmd}: error in response`)}
 
                     break;
                 }
@@ -199,7 +226,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Nyaa`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -207,7 +234,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'ascii':{
@@ -217,7 +244,7 @@ client.on('message', async message => {
                         var response = await fetch('https://artii.herokuapp.com/make?text='+args.join('+'))
                         .then(res => res.text())
                         .then(text => message.channel.send('```'+text+'```'));
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'ass':{
@@ -228,7 +255,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Wink!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -237,7 +264,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'avatar':{
@@ -249,7 +276,7 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Link to avatar`,'',`${user.avatarURL}`)
                         .setURL(`${user.avatarURL}`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setDescription(`Successfully fetched ${user}'s avatar`)
                         .setImage(`${user.avatarURL}`)
@@ -258,7 +285,7 @@ client.on('message', async message => {
                     m.edit(embed)
                     setTimeout(function(){m.delete();},ET)
                     });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'baka':{
@@ -273,14 +300,14 @@ client.on('message', async message => {
                         .setDescription(`${user} is baka!`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch(e){console.log(`${cmd} error in response`)}
+                    } catch(e){console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -301,6 +328,29 @@ client.on('message', async message => {
                     break;
                 }
 
+                case 'bernie':{
+                    console.log(clc.blueBright(`${cmd} command used`))
+                    text = args.join(' ')
+                    message.delete();
+                    try{
+                        function cb(err, imgUrl){
+                        var embed = new Discord.RichEmbed()
+                        .setImage(imgUrl)
+                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
+                        .setTimestamp()
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
+                        .setFooter(`Empress`);
+                        message.channel.send(embed).then(m=>{
+                            setTimeout(function(){m.delete();},ET);
+                        });
+                    }
+                    x = imgflipper.generateMeme(222403160, " ", "for "+text, cb);
+                    } catch(e) {
+                        console.log(`${cmd}: error in response`)}
+
+                    break;
+                }
+
                 case 'blank':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
@@ -314,7 +364,7 @@ client.on('message', async message => {
                         var response = await fetch(`https://nekos.life/api/v2/img/blowjob`);
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setTitle("Nyaa")
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
@@ -324,7 +374,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch (e){console.log(`${cmd} error in response`)}
+                    } catch (e){console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'boobs':{
@@ -335,7 +385,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Wink`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -343,11 +393,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch (e){console.log(`${cmd} error in response`)}
-                    break;
-                }
-                case 'homies':{
-
+                    } catch (e){console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -374,11 +420,11 @@ client.on('message', async message => {
                         + `Node ${process.version}\n`
                         + `Discord.Js v${version}`,true)
                         .addField("Dev:",`quiet#0069`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`);
                         message.edit(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET)});
-                    } catch (e) {console.log(`${cmd} error in response`)}
+                    } catch (e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -391,7 +437,7 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setTitle("Meow!")
                         .setImage(data[0].url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
                         .setTimestamp();
@@ -399,29 +445,29 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch (e) {console.log(`${cmd} error in response`)}
+                    } catch (e) {console.log(`${cmd}: error in response`)}
 
                     break;
                 }
                 case 'changemymind':{
                     console.log(clc.blueBright(`${cmd} command used`))
-                    text = args.join('+')
+                    text = args.join(' ')
                     message.delete();
                     try{
-                        var response = await fetch(`https://nekobot.xyz/api/imagegen?type=changemymind&text=${text}`);
-                        var data = await response.json();
+                        function cb(err, imgUrl){
                         var embed = new Discord.RichEmbed()
-                        .setTitle(`Change my mind`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setImage(imgUrl)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setImage(data.message)
-                        .setFooter(`Empress`)
-                        .setTimestamp();
+                        .setTimestamp()
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
+                        .setFooter(`Empress`);
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-
-                    } catch (e) {console.log(`${cmd} error in response`)}
+                    }
+                    x = imgflipper.generateMeme(129242436, text, "", cb);
+                    } catch(e) {
+                        console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -453,30 +499,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch (e){console.log(`${cmd} error in response`)}
-                    break;
-                }
-
-                case 'color':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    if(args.length<1) return console.log(`${cmd} usage: ${PREFIX}${cmd} <hexcode>`)
-                    if(args[0].startsWith('#')) msg = args[0].split('#')[1];
-                    else msg = args[0]
-                    message.delete();
-                    try{
-                        var response = await fetch(`https://api.alexflipnote.dev/color/${msg}`);
-                        var data = await response.json();
-                        var embed = new Discord.RichEmbed()
-                        .setImage(data.image)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
-                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setTimestamp()
-                        .setFooter(`Empress`);
-                        message.channel.send(embed).then(m=>{
-                            setTimeout(function(){m.delete();},ET);
-                        });
-                    } catch(e) {console.log(`${cmd} error in response`)}
-                    
+                    } catch (e){console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -499,7 +522,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -508,7 +531,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    }catch(e) {console.log(`${cmd} error in response`)}
+                    }catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -520,7 +543,7 @@ client.on('message', async message => {
                         var response = await fetch(`https://some-random-api.ml/base64?decode=`+msg);
                         var data = await response.json();
                         message.channel.send(data.text);
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'define':{
@@ -532,11 +555,11 @@ client.on('message', async message => {
                         .setDescription(`**word:** \n ${search[0].word} \n \n **definition 1:** \n ${search[0].definition}\n**example 1** \n ${search[0].example}\n\n **definition 2:** \n ${search[1].definition}\n **example 2** \n ${search[1].example}`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setTitle(`urban dictionary`)
                         message.edit(embed)
                         setTimeout(function(){message.delete();},ET)
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -578,7 +601,7 @@ client.on('message', async message => {
                     .setDescription(`${user}'s dong is.. \n8${dong}D `)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                     .setFooter(`Empress`)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setTimestamp();
                     message.channel.send(embed).then(m=>{
                         setTimeout(function(){m.delete();},ET);
@@ -631,7 +654,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Mlem!")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setImage(data[0].url)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -640,7 +663,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'delchannels':{
@@ -664,43 +687,26 @@ client.on('message', async message => {
                     msg = args.join(" ").split(",")
                     var top = msg[0].replace(/\s/g, '+');
                     if(!msg[1]) return console.log(`${cmd} usage: ${PREFIX}${cmd} <top text>, <bottom text>`)
-                    var bottom = msg[1].replace(/\s/g, '+');
+                    var bottom = msg[1].replace(/\s/g, ' ');
                     message.delete();
                     try{
+                        function cb(err, imgUrl){
                         var embed = new Discord.RichEmbed()
-                        .setImage(`https://api.alexflipnote.dev/drake?top=${top}&bottom=${bottom}`)
+                        .setImage(imgUrl)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`);
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    }
+                    x = imgflipper.generateMeme(181913649, top, bottom, cb);
+                    } catch(e) {
+                        console.log(`${cmd}: error in response`)}
                     break;                    
                 }
 
-                case 'dym':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    msg = args.join(" ").split(",")
-                    var top = msg[0].replace(/\s/g, '+');
-                    if(!msg[1]) return console.log(`${cmd} usage: ${PREFIX}${cmd} <top text>, <bottom text>`)
-                    var bottom = msg[1].replace(/\s/g, '+');
-                    try{
-                        var embed = new Discord.RichEmbed()
-                        .setImage(`https://api.alexflipnote.dev//didyoumean?top=${top}&bottom=${bottom}`)
-                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setTimestamp()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
-                        .setFooter(`Empress`);
-                        message.channel.send(embed).then(m=>{
-                            setTimeout(function(){m.delete();},ET);
-                        });
-                    } catch(e) {console.log(`${cmd} error in response`)}
-                    break;
-                }
 
                 case 'editspam':{
                     console.log(clc.blueBright(`${cmd} command used`))
@@ -724,14 +730,14 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setTitle(msg[0])
                         .setDescription(msg[1])
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
                         .setFooter(`Empress`);
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -744,7 +750,7 @@ client.on('message', async message => {
                         var response = await fetch(`https://some-random-api.ml/base64?encode=`+msg);
                         var data = await response.json();
                         message.channel.send(data.base64);
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -756,7 +762,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -764,7 +770,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'eval':{
@@ -774,11 +780,11 @@ client.on('message', async message => {
                         res = eval(args.join(" "))
                         res = util.inspect(res)
                     } catch (err) {
-                        return message.channel.send("", { embed: new Discord.RichEmbed().setTitle("Results").setColor("#FF0000").setDescription(":desktop: **Input**: ```" + args.join("") + "```:eyes: **Error**: ```" + err + "```").setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png').setFooter("Empress") }).then(m=>{
+                        return message.channel.send("", { embed: new Discord.RichEmbed().setTitle("Results").setColor("#FF0000").setDescription(":desktop: **Input**: ```" + args.join("") + "```:eyes: **Error**: ```" + err + "```").setThumbnail('https://imgur.com/a/PT3n5lx').setFooter("Empress") }).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
                     }
-                    message.channel.send("", { embed: new Discord.RichEmbed().setTitle("Results").setColor("#46FF00").setDescription(":desktop: **Input**: ```" + args.join("") + "```:white_check_mark: **Output**: ```" + res + "```").setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png').setFooter("Empress") }).then(m=>{
+                    message.channel.send("", { embed: new Discord.RichEmbed().setTitle("Results").setColor("#46FF00").setDescription(":desktop: **Input**: ```" + args.join("") + "```:white_check_mark: **Output**: ```" + res + "```").setThumbnail('https://imgur.com/a/PT3n5lx').setFooter("Empress") }).then(m=>{
                         setTimeout(function(){m.delete();},ET);
                     });
                     message.delete();
@@ -792,7 +798,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Random fact`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setDescription(data.fact)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -800,7 +806,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
 
                 }
@@ -826,7 +832,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Feeding ${user}`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setImage(data.url)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -834,7 +840,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -848,13 +854,13 @@ client.on('message', async message => {
                         .setTitle("Nyaa")
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -867,14 +873,14 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setTitle("Foxy!")
                         .setImage(data.image)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'gay':{
@@ -886,7 +892,7 @@ client.on('message', async message => {
                     var embed = new Discord.RichEmbed()
                     .setTitle("Gay meter")
                     .setImage(`https://some-random-api.ml/canvas/gay?avatar=${user.avatarURL}`)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setDescription(`${user} is ${x}% gay! :rainbow_flag: `)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                     .setFooter(`Empress`)
@@ -908,7 +914,7 @@ client.on('message', async message => {
                     try{
                         var embed = new Discord.RichEmbed()
                         .setTitle(`${message.guild.name} icon`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(message.guild.iconURL)
                         .setFooter(`Empress`)
@@ -916,7 +922,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'guildlist':{
@@ -933,7 +939,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -941,9 +947,10 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
+
                 case 'horny':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
@@ -953,7 +960,7 @@ client.on('message', async message => {
                     try{
                         var embed = new Discord.RichEmbed()
                         .setTitle("HornyMeter")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setDescription(`${user} is ${x}% horny! :eggplant:`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -961,7 +968,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -975,7 +982,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Hugging ${user}!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -983,7 +990,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1010,7 +1017,7 @@ client.on('message', async message => {
                         .setImage(args[0])
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`);
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
@@ -1037,7 +1044,7 @@ client.on('message', async message => {
                     var embed = new Discord.RichEmbed()
                     .setTitle(`IP lookup`)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setDescription(`Details for ${data.query}`)
                     .addField("ISP:",`${isp}`)
                     .addField("City:",`${city}`,true)
@@ -1054,23 +1061,6 @@ client.on('message', async message => {
                     })
                     break; 
                 }
-                case 'jokeoverhead':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    let user = message.mentions.users.first()
-                    message.delete();
-                    if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
-                    img=`https://api.alexflipnote.dev/jokeoverhead?image=${user.avatarURL}`
-                    var embed = new Discord.RichEmbed()
-                    .setImage(img)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
-                    .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                    .setTimestamp()
-                    .setFooter(`Empress`);
-                    message.channel.send(embed).then(m=>{
-                        setTimeout(function(){m.delete();},ET);
-                    });
-                    break;
-                }
                 case 'kick':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     if(message.mentions.users.size===0) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
@@ -1083,7 +1073,7 @@ client.on('message', async message => {
                             message.channel.send("Kicking...").then(m=>{
                                 var embed = new Discord.RichEmbed()
                                 .setTitle(`Kick!`)
-                                .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                                .setThumbnail('https://imgur.com/a/PT3n5lx')
                                 .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                                 .setDescription(`${user} has been kicked. Reason:${args[1]}`)
                                 .setFooter(`Empress`)
@@ -1113,7 +1103,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Kissing ${user}!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1121,7 +1111,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'lenny':{
@@ -1137,7 +1127,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1145,7 +1135,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1157,7 +1147,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1165,7 +1155,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1189,13 +1179,13 @@ client.on('message', async message => {
                         .setTitle(`Lyrics of ${data.title}`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setDescription(data.lyrics)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         }).catch((err)=>console.log("bot fucked up"));
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'masschannel':{
@@ -1219,13 +1209,13 @@ client.on('message', async message => {
                         const embed = new Discord.RichEmbed()
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(img)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setTitle(`Your meme. From r/${random}`)
                         .setURL(`https://reddit.com/r/${random}`)
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1288,7 +1278,7 @@ client.on('message', async message => {
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
                     function doRandHT() {
-                        var rand = ['gonewild','realgirls'];
+                        var rand = ['gonewild','realgirls','NSFW_Snapchat','Amateurs'];
                         return rand[Math.floor(Math.random()*rand.length)];
                     }
                     try{
@@ -1298,7 +1288,7 @@ client.on('message', async message => {
                         .setTitle(`Wink!`)
                         .setURL(data.postLink)
                         .setDescription(data.title)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1307,7 +1297,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'owoify':{
@@ -1317,7 +1307,7 @@ client.on('message', async message => {
                         var response = await fetch(`https://nekos.life/api/v2/owoify?text=${msg}`);
                         var data = await response.json();
                         message.edit(data.owo)
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'passreset':{
@@ -1361,7 +1351,7 @@ client.on('message', async message => {
                                 }
                         }
                         
-                    } catch(e){console.log(`${cmd} error in response`)}
+                    } catch(e){console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1376,7 +1366,7 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Patting ${user}!`)
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
                         .setTimestamp();
@@ -1384,7 +1374,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
                     }
-                    catch(e) {console.log(`${cmd} error in response`)}
+                    catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1394,7 +1384,7 @@ client.on('message', async message => {
                     message.channel.send("Pinging...").then(m =>{
                         var ping = m.createdTimestamp - message.createdTimestamp;
                         var embed = new Discord.RichEmbed()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setAuthor(`Pong, motherfucker! Your Ping Is:-\n 🏓 ${ping}ms`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -1449,13 +1439,15 @@ client.on('message', async message => {
                         "BOTPREFIX": args[0],
                         "EmbedTimeout": ET,
                         "OpenWeatherAPIKey": WeatherKey,
-                        "webhookurl": webhook
+                        "webhookurl": webhook,
+                        "imgflip_username": imgflip_username,
+                        "imgflip_pass": imgflip_pass
                     }
                     fs.writeFileSync(path.resolve('./', 'config.json'), JSON.stringify(info)); //pkg path
                     message.channel.send("Changing prefix...").then(m =>{
                         var ping = m.createdTimestamp - message.createdTimestamp;
                         var embed = new Discord.RichEmbed()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setAuthor(`uwu, the prefix has been changed to ${args[0]}`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
@@ -1496,7 +1488,7 @@ client.on('message', async message => {
                         .setTitle(`Wink!`)
                         .setURL(data.postLink)
                         .setDescription(data.title)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1505,7 +1497,7 @@ client.on('message', async message => {
                             setTimeout(function(){m.delete();},ET);
                         });
 
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'rainbowroles':{
@@ -1535,25 +1527,6 @@ client.on('message', async message => {
                     }
                     msg = args.join(" ").split("").reverse().join("");
                     message.edit(msg);
-                    break;
-                }
-                case 'sadcat':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    try{
-                        var response = await fetch(`https://api.alexflipnote.dev/sadcat`);
-                        var data = await response.json();
-                        var embed = new Discord.RichEmbed()
-                        .setImage(data.file)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
-                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setTimestamp()
-                        .setFooter(`Empress`);
-                        message.channel.send(embed).then(m=>{
-                            setTimeout(function(){m.delete();},ET);
-                        });
-                    } catch(e) {console.log(`${cmd} error in response`)}
-                    
                     break;
                 }
                 case 'secret':{
@@ -1592,7 +1565,7 @@ client.on('message', async message => {
                         .addField("Channels", message.guild.channels.size, inline)
                         .addField('AFK Channel', `${message.guild.afkChannelID === null ? 'No AFK Channel' : bot.channels.get(message.guild.afkChannelID).name}`, true, inline)
                         .setFooter(`Empress`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setTimestamp();
                 
                     message.channel.send(embed).then(m=>{
@@ -1608,7 +1581,7 @@ client.on('message', async message => {
                         var response = await fetch('http://tinyurl.com/api-create.php?url='+args[0])
                         .then(res => res.text())
                         .then(text => message.channel.send(text))
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1617,7 +1590,7 @@ client.on('message', async message => {
                     message.delete();
                     var embed = new Discord.RichEmbed()
                     .setTitle(`Shutting down...`)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setDescription(`Empress is retiring to her chambers...`)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                     .setTimestamp()
@@ -1635,7 +1608,7 @@ client.on('message', async message => {
                     if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
                     let x = Math.floor(Math.random() * 100);
                     var embed = new Discord.RichEmbed()
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setTitle("SimpMeter")
                     .setDescription(`${user} is ${x}% simp! :flushed: `)
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
@@ -1659,13 +1632,13 @@ client.on('message', async message => {
                         .setDescription(`Slapping ${user}!`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1681,7 +1654,7 @@ client.on('message', async message => {
                     else msg = "Better luck next time!"
                     var embed = new Discord.RichEmbed()
                     .setTitle(`Slots`)
-                    .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                    .setThumbnail('https://imgur.com/a/PT3n5lx')
                     .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                     .setDescription(`**[ ${a} ${b} ${c} ]\n\n${message.author}**,`+"\n"+msg)
                     .setFooter(`Empress`)
@@ -1710,14 +1683,14 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setDescription(`smug face`)
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 
@@ -1733,26 +1706,29 @@ client.on('message', async message => {
                     }
                     break;
                 }
-                case 'tomcall':{
+                case 'squirt':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
-                    if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <text>`)
-                    let text = args.join('+')
                     try{
-                        img=`https://api.alexflipnote.dev//calling?text=${text}`
+                        var response = await fetch(`https://meme-api.herokuapp.com/gimme/squirting`);
+                        var data = await response.json();
                         var embed = new Discord.RichEmbed()
-                        .setImage(img)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setTitle(`Wink!`)
+                        .setURL(data.postLink)
+                        .setDescription(data.title)
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setTimestamp()
-                        .setFooter(`Empress`);
+                        .setImage(data.url)
+                        .setFooter(`Empress`)
+                        .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
-                    
+
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
+
                 case 'thighs':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
@@ -1761,7 +1737,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Wink!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -1769,7 +1745,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
 
                     break;
                 }
@@ -1780,7 +1756,7 @@ client.on('message', async message => {
                     if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
                     try{
                         var embed = new Discord.RichEmbed()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setImage(`https://some-random-api.ml/canvas/triggered?avatar=${user.avatarURL}`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
@@ -1788,7 +1764,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -1802,7 +1778,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Twitter`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.message)
                         .setFooter(`Empress`)
@@ -1810,8 +1786,32 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
+                }
+                case 'twobuttons':{
+                    console.log(clc.blueBright(`${cmd} command used`))
+                    msg = args.join(" ").split(",")
+                    var top = msg[0].replace(/\s/g, '+');
+                    if(!msg[1]) return console.log(`${cmd} usage: ${PREFIX}${cmd} <top text>, <bottom text>`)
+                    var bottom = msg[1].replace(/\s/g, ' ');
+                    message.delete();
+                    try{
+                        function cb(err, imgUrl){
+                        var embed = new Discord.RichEmbed()
+                        .setImage(imgUrl)
+                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
+                        .setTimestamp()
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
+                        .setFooter(`Empress`);
+                        message.channel.send(embed).then(m=>{
+                            setTimeout(function(){m.delete();},ET);
+                        });
+                    }
+                    x = imgflipper.generateMeme(87743020, top, bottom, cb);
+                    } catch(e) {
+                        console.log(`${cmd}: error in response`)}
+                    break;  
                 }
 
                 case 'stealemojis':{
@@ -1886,14 +1886,14 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Tickling ${user}!`)
                         .setImage(data.url)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setFooter(`Empress`)
                         .setTimestamp();
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'tits':{
@@ -1904,7 +1904,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setTitle("Nyaa")
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.url)
                         .setFooter(`Empress`)
@@ -1912,7 +1912,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         }); 
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'tokeninfo':{
@@ -1958,7 +1958,7 @@ client.on('message', async message => {
                         var embed = new Discord.RichEmbed()
                         .setTitle(`Token Info`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setDescription(`Details for ${name}'s token`)
                         .setImage(`https://cdn.discordapp.com/avatars/${id}/${avatarid}`)
                         .addField("Name:",`${name}#${tag}`,true)
@@ -1981,26 +1981,6 @@ client.on('message', async message => {
 
                 }
 
-                case 'trash':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    let user = message.mentions.users.first()
-                    message.delete();
-                    if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
-                    try{
-                        img=`https://api.alexflipnote.dev/trash?face=${client.user.avatarURL}&trash=${user.avatarURL}`
-                        var embed = new Discord.RichEmbed()
-                        .setImage(img)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
-                        .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
-                        .setTimestamp()
-                        .setFooter(`Empress`);
-                        message.channel.send(embed).then(m=>{
-                            setTimeout(function(){m.delete();},ET);
-                        });
-                    } catch (e) {console.log(`${cmd} error in response`)}
-                    break;
-                }
-
                 case 'unbanall':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     var user;
@@ -2019,14 +1999,14 @@ client.on('message', async message => {
                     try{
                         var embed = new Discord.RichEmbed()
                         .setImage(`https://www.demirramon.com/gen/undertale_text_box.png?text=${text}`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
                         .setFooter(`Empress`);
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -2066,7 +2046,7 @@ client.on('message', async message => {
                     if(!user) return console.log(`${cmd} usage: ${PREFIX}${cmd} <@user>`)
                     try{
                         var embed = new Discord.RichEmbed()
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setImage(`https://some-random-api.ml/canvas/wasted?avatar=${user.avatarURL}`)
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
@@ -2074,7 +2054,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -2093,7 +2073,7 @@ client.on('message', async message => {
                         var feelsLike = data.main.feels_like;
                         var embed = new Discord.RichEmbed()
                             .setTitle(`The weather in ${args} is...`)
-                            .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                            .setThumbnail('https://imgur.com/a/PT3n5lx')
                             .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                             .setDescription(data.weather[0].main)
                             .addField("Temperature: ",temp+" C",true)
@@ -2105,7 +2085,7 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
 
@@ -2117,7 +2097,7 @@ client.on('message', async message => {
                         var data = await response.json();
                         var embed = new Discord.RichEmbed()
                         .setDescription(`Wink!`)
-                        .setThumbnail('https://cdn.discordapp.com/attachments/766750251151261716/767083607923621939/empress.png')
+                        .setThumbnail('https://imgur.com/a/PT3n5lx')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setImage(data.link)
                         .setFooter(`Empress`)
@@ -2125,56 +2105,13 @@ client.on('message', async message => {
                         message.channel.send(embed).then(m=>{
                             setTimeout(function(){m.delete();},ET);
                         });
-                    } catch(e) {console.log(`${cmd} error in response`)}
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     break;
                 }
                 case 'help':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     message.delete();
-                    message.channel.send("```md\n**GENERAL**\n**TEXT**\n**MODERATION**\n**IMAGE**\n**FUN**\n**NSFW**\n**ABUSE**```")
-                    break;
-                }
-                case 'general':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\navatar <`blank`/@user>\nbotstats\nhelp\nhypesquad <brilliance/bravery/balance/random>\nip <ip>\nlyrics <query>\nowoify <text>\nping\nprefix <desired prefix>\nserverinfo\nshorten <url>\nshutdown\nstealemojis\nuserinfo```")
-                    break;
-                }
-                case 'text':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\nascii <text>\nblank\nclap <text>\ndecode <base64 text>\ndm <@user>\neditspam <text>\nembed <title>, <description>\nencode <text>\neval <js snippet>\nfact\nfakeinvite <fake discord invite> <real discord invite> [enter without discord.gg/]\ngping <@user>\nguildlist\nimgembed <img url>\nlenny\nlmgtfy <query>\nnotfunny\nreverse <text>\nsecret <text>\nsmol <text>\nspam <number> <text>\type <text>\ntyping <duration in s/m/d/y>```")
-                    break;
-                }
-                case 'moderation':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\nban <@user/id>\nkick <@user>\nnickname <`blank`/@user>\npurge <number/@user number>```")
-                    break;
-                }
-                case 'image':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\nachievement <text>\nbaka <@user>\ncat\nchangemymind <text>\ncolor <hex>\ncuteneko\ndog\ndrake <top text, bottom text>\ndym <text>\nfeed <@user>\nfox\nhug <@user>\njokeoverhead <@user>\nkiss <@user>\nmeme\npat <@user>\nsadcat\nslap <@user>\nsmug\ntickle <@user>\ntrash <@user>\ntomcall Mtext>\ntriggered <@user>\ntrumptweet<text>\nundertale <text>\nwasted <@user>\nwink```")
-                    break;
-                }
-                case 'fun':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\n8ball <question>\ncoinflip\ndick <@user>\nhorny <@user>\nms <rows> <columns> <mines>\npokedex <pokemon name>\nrainbowroles\nsimp <@user>\nslots```")
-                    break;
-                }
-                case 'nsfw':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\nanal\nanimethighs\nblowjob\nboobs\nerofeet\nfeet\nhentai\nlesbian\nlewdneko\nnudes\npussy\ntits\nthighs```")
-                    break;
-                }
-                case 'abuse':{
-                    console.log(clc.blueBright(`${cmd} command used`))
-                    message.delete();
-                    message.channel.send("```md\nbanall\ncrash <@user>\ndelchannels\ndelroles\ndestroyserver\ndisable <token>\nkickall\nmasschannel\npassreset <github Personal Access token(repo, delete perms)> <discord token>\ntokeninfo <token>\nunbanall```")
-                    break;
+                    await open('https://github.com/quiet69/Empress-Discord-Self-Bot#features');
                 }
 
         }

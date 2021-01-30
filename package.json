@@ -13,7 +13,7 @@
   "keywords": [
     "~"
   ],
-  "author": "quiet",
+  "author": "quiet69",
   "license": "ISC",
   "dependencies": {
     "center-align": "^1.0.1",
@@ -22,10 +22,13 @@
     "discord.js-minesweeper": "^1.0.6",
     "fs": "0.0.1-security",
     "hwid": "^0.2.1",
+    "imgflip": "^2.0.0",
+    "imgflipper": "^1.0.1",
     "ms": "^2.1.2",
     "node-bash-title": "0.0.2",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.5",
+    "open": "^7.3.1",
     "os": "^0.1.1",
     "path": "^0.12.7",
     "pkg": "^4.4.9",
