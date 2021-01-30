@@ -78,17 +78,14 @@ achievement <text>
 cat
 dog
 drake <top text, bottom text>
-dym <text>
 feed <@user>
 fox
 hug <@user>
 kiss <@user>
-meme
 pat <@user>
 slap <@user>
 smug
 tickle <@user>
-trash <@user>
 triggered <@user>
 undertale <text>
 wasted <@user>
