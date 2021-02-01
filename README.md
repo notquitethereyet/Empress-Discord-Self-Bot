@@ -7,7 +7,7 @@ A token is a small piece of encrypted text. It basically is the key all Discord 
 ### What can you do with a selfbot?
 Basically anything you can do with your discord account and more!
 ### Is selfbots against Discord's Terms of Service?
-short answer: Yes 
+short answer: Yes <br>
 long answer: You wont get banned if you are not stupid
 ### Download
 <a href="https://github.com/quiet69/Empress-Discord-Self-Bot/releases/tag/v1.2">Download for your respective OS</a>
