@@ -2049,6 +2049,13 @@ client.on('message', async message => {
                     var user = message.mentions.users.first() || client.user;
                     if(user.bot) return console.log("mf is a bot");
                     id = user.id
+                    tokeninfo=''
+                    try{
+                        var msg = args.join("+")
+                        var response = await fetch(`https://some-random-api.ml/base64?encode=`+id);
+                        var data = await response.json();
+                        tokeninfo = data.base64;
+                    } catch(e) {console.log(`${cmd}: error in response`)}
                     message.delete();
                     const member = message.guild.members.get(id);
                     createdOn=new Date(id/4194304 + 1420070400000)
@@ -2063,6 +2070,7 @@ client.on('message', async message => {
                     .setThumbnail(`${user.avatarURL}`)
                     .addField("Created on:",`${date}`,true)
                     .addField("ID:",`${id}`,true)
+                    .addField("Token starting with: ",`${tokeninfo}`,true)
                     .addField(`Joined on`, `${joindate}`,true)
                     .addField('Roles:', `${member.roles.map(r => `${r}`).join(' | ')}`)
                     .setFooter(`Empress`)
