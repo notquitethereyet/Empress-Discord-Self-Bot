@@ -2046,12 +2046,27 @@ client.on('message', async message => {
 
                 case 'userinfo':{
                     console.log(clc.blueBright(`${cmd} command used`))
-                    var user = message.mentions.users.first() || client.user;
-                    if(user.bot) return console.log("mf is a bot");
-                    id = user.id
+                    id = ''
+                    if(args.length===0) {
+                        user = client.user
+                        id = user.id
+                    }
+                    else if(!message.mentions.users.first()){
+                        id = args[0]
+                        try{
+                            user = client.users.get(id)
+                        } catch(e) {console.log(`${cmd}: error in response`)}
+                    }
+                    else if(message.mentions.users.first()){
+                        user = message.mentions.users.first()
+                        id = user.id
+                    }
+                    if(user.bot) {
+                        message.delete();
+                        return console.log("mf is a bot");
+                    }
                     tokeninfo=''
                     try{
-                        var msg = args.join("+")
                         var response = await fetch(`https://some-random-api.ml/base64?encode=`+id);
                         var data = await response.json();
                         tokeninfo = data.base64;
