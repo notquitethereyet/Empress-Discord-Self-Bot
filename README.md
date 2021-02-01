@@ -19,7 +19,7 @@ long answer: You wont get banned if you are not stupid
 ![drake](https://user-images.githubusercontent.com/43907678/106356665-67b93f00-6327-11eb-9175-66eab2b11689.png)
 ![homies](https://user-images.githubusercontent.com/43907678/106357045-b536ab80-6329-11eb-8591-949113f03448.png)
 ![image](https://user-images.githubusercontent.com/43907678/106357360-b072f700-632b-11eb-8f56-1d847445e3de.png)
-![image](https://user-images.githubusercontent.com/43907678/106357424-fa5bdd00-632b-11eb-9070-18d6e5ffbf0f.png)
+![image](https://user-images.githubusercontent.com/43907678/106484595-cd4b2e00-64d5-11eb-9bb3-26400052573a.png)
 
 
 
