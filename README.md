@@ -40,7 +40,7 @@ serverinfo
 shorten <url>
 shutdown
 stealemojis
-userinfo
+userinfo <blank/@user/userid>
 weather <city>
 ```
 ### Text
