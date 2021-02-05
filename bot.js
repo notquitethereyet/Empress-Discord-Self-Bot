@@ -62,6 +62,7 @@ const Minesweeper = require('discord.js-minesweeper');
 const Imgflipper = require("imgflipper");
 const imgflipper = new Imgflipper(imgflip_username, imgflip_pass);
 const open = require('open');
+const { title } = require('process');
 
 const mappings = (function (object) {
     let output = [];
@@ -748,12 +749,14 @@ client.on('message', async message => {
                 case 'embed':{
                     console.log(clc.blueBright(`${cmd} command used`))
                     msg = args.join(" ").split(", ")
+                    tit = msg[0]
+                    desc = msg.toString().substring(tit.length+1)
                     message.delete();
-                    if(!msg[1]) return console.log(`${cmd} usage: ${PREFIX}${cmd} <title>, <description>`)
+                    if(!desc) return console.log(`${cmd} usage: ${PREFIX}${cmd} <title>, <description>`)
                     try{
                         var embed = new Discord.RichEmbed()
-                        .setTitle(msg[0])
-                        .setDescription(msg[1])
+                        .setTitle(tit)
+                        .setDescription(desc)
                         .setThumbnail('https://cdn.discordapp.com/attachments/767727403555356673/805083294496063498/18358674_1293395147381813_176585671498804251_o.jpg')
                         .setColor('#'+Math.floor(Math.random()*16777215).toString(16))
                         .setTimestamp()
