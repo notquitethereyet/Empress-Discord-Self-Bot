@@ -18,8 +18,6 @@ long answer: You wont get banned if you are not stupid
 ![empress](https://user-images.githubusercontent.com/43907678/106354423-bd85eb00-6317-11eb-8a09-062214db1c3f.png)
 ![trumptweet](https://user-images.githubusercontent.com/43907678/106354494-3422e880-6318-11eb-8f2d-ab47b89c852c.png)
 ![ip](https://user-images.githubusercontent.com/43907678/106354513-56b50180-6318-11eb-823a-9b7fafe14d6a.png)
-![image](https://user-images.githubusercontent.com/43907678/106357360-b072f700-632b-11eb-8f56-1d847445e3de.png)
-
 
 
 
