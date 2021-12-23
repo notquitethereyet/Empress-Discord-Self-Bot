@@ -1,4 +1,5 @@
 # Empress-Self-Bot
+## CURRENTTLY RUNNING ON AN OBSOLETE VERSION OF DISCORD.JS!!! PLANNING TO MOVE TO ERIS. FEEL FREE TO FORK.
 A Selfbot I made as a hobby
 ### What is a selfbot?
 A selfbot is basically a bot inside your own account. It uses your token to post messages as you. It reacts to you and you only.
