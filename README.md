@@ -117,22 +117,6 @@ slots
 ```
 ### NSFW
 ```
-anal
-animethighs
-ass
-blowjob
-boobs
-cuteneko
-erofeet
-feet
-hentai
-lesbian
-lewdneko
-nudes
-pussy
-squirt
-thighs
-tits
 
 ```
 ### Abuse
