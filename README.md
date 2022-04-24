@@ -15,6 +15,10 @@ long answer: You wont get banned if you are not stupid
 ### How to get token?
 <a>How to get discord token easily?</a>
 ![img](token.gif)
+or paste this in browser console upon discord login
+```
+Object.values(webpackChunkdiscord_app.push([[Symbol()], {}, (e) => e.c])).find(e => e.exports?.getToken).exports.getToken()
+```
 ![empress](https://user-images.githubusercontent.com/43907678/106354423-bd85eb00-6317-11eb-8a09-062214db1c3f.png)
 ![trumptweet](https://user-images.githubusercontent.com/43907678/106354494-3422e880-6318-11eb-8f2d-ab47b89c852c.png)
 ![ip](https://user-images.githubusercontent.com/43907678/106354513-56b50180-6318-11eb-823a-9b7fafe14d6a.png)
