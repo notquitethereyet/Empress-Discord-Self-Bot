@@ -120,9 +120,7 @@ simp <@user>
 slots
 ```
 ### NSFW
-```
-
-```
+[see here](https://github.com/quiet69/Empress-Discord-Self-Bot/blob/main/nsfw_commands.txt)
 ### Abuse
 ```
 banall
